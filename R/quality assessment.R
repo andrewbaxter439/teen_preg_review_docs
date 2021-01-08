@@ -74,11 +74,23 @@ rating_dist <- output_table %>%
 })
 
 # DONE
-# output_table %>% 
-#   left_join(study_id_key, by = c("Study", "Covidence #")) %>% 
-#   select(Reference, 3:8) %>% 
-#   table2doc("Review-quality.docx", digits = 0, width = 20)
-#
+doc_qual_tab <- read_docx("R/template_de.docx")
+
+
+output_table %>%
+  left_join(study_id_key, by = c("Study", "Covidence #")) %>%
+  select(Reference, 3:8) %>%
+  mutate(across(2:5, ~ case_when( 
+    .x == "low" ~ "Yes",
+    .x == "high" ~ "No"
+  ))) %>% 
+  body_add_table(doc_qual_tab, ., 
+                 header = TRUE,
+                 style = "Plain Table 1",
+                 first_row = TRUE,
+                 first_column = FALSE)
+
+print(doc_qual_tab, "Review-quality.docx")
 
 studies_ratings_abstracts <- output_table %>% 
   left_join(study_id_key, by = c("Study", "Covidence #")) %>% 

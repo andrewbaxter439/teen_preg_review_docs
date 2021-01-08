@@ -3,7 +3,7 @@ library(readxl)
 library(export)
 library(SPHSUgraphs)
 
-excel_sheet <- read_xlsx('Data extraction - effect or not.xlsx', sheet = "Transposed")[5:105,] %>% 
+excel_sheet <- readxl::read_xlsx('Data extraction - effect or not.xlsx', sheet = "Transposed")[5:105,] %>% 
   filter(!is.na(Reference))
 
 
@@ -38,7 +38,7 @@ excel_sheet %>%
 
 # summarising table -------------------------------------------------------
 
-excel_sheet_counts <- read_xlsx('Data extraction - effect or not.xlsx', sheet = "Evidence by type of exposure")
+excel_sheet_counts <- readxl::read_xlsx('Data extraction - effect or not.xlsx', sheet = "Evidence by type of exposure")
 
 excel_sheet_counts %>% 
   tally(Total>0)
